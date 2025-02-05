@@ -10,7 +10,7 @@ export default function Home() {
       <ul>
         {posts.map(post => (
           <li key={post.fileName} className="list-none bg-white p-4 rounded-md mb-4">
-            <Link href={`/post/${post.fileName.replace(/\.md$/, "")}`}>
+            <Link href={`/post/${post.fileName.replace(/\.md$/, "").replace(/ /g, "-")}`}>
               <PostItem post={post} />
             </Link>
           </li>

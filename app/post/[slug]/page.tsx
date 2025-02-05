@@ -6,14 +6,14 @@ import { notFound } from "next/navigation";
 export async function generateStaticParams() {
     const posts = getSortedPosts();
     return posts.map(post => ({
-        slug: post.fileName.replace(/\.md$/, ""), // 去掉 .md 扩展名
+        slug: post.fileName.replace(/\.md$/, "").replace(/ /g, "-"), // Replace spaces with hyphens
     }));
 }
 
 export default async function PostPage({ params }: { params: Promise<{ slug: string }> }) {
     const posts = getSortedPosts();
     const { slug } = await params;
-    const post = posts.find(post => post.fileName.replace(/\.md$/, "") === slug);
+    const post = posts.find(post => post.fileName.replace(/\.md$/, "").replace(/ /g, "-") === slug);
 
     if (!post) {
         return notFound();
@@ -23,7 +23,7 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
 
     return (
         <div>
-            <div className="prose lg:prose-lg max-w-none">
+            <div className="prose prose-slate lg:prose-lg max-w-none">
                 <div dangerouslySetInnerHTML={{ __html: content }} />
             </div>
         </div>
