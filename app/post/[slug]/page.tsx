@@ -23,7 +23,7 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
 
     return (
         <div>
-            <div className="prose">
+            <div className="prose lg:prose-lg max-w-none">
                 <div dangerouslySetInnerHTML={{ __html: content }} />
             </div>
         </div>
