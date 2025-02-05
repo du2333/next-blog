@@ -1,26 +1,21 @@
 ---
-title: Example Markdown Post 3
+title: How to use markdown
 date: 2024-01-03
 ---
 
-# Example Markdown Post 3
+# How to use markdown
+In order to use markdown, you need to use the following syntax:
 
-This is the third example post to test various markdown features.
-
-## Introduction
-
-This is an example post to test various markdown features. Below are different types of content you can use.        
-
-### 1. Headers
-
-You can create headers using the `#` symbol:
-
+```markdown
 # Header 1
-
 ## Header 2
-
 ### Header 3
+```
 
-#### Header 4
+You can also use bold, italic, and underline text.
 
-
+```markdown
+**Bold text**
+*Italic text*
+_Underline text_
+```
