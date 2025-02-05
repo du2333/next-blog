@@ -19,12 +19,13 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
         return notFound();
     }
 
-    const { metadata, content } = await renderMarkdown(`example_posts/${post.fileName}`);
+    const { content } = await renderMarkdown(`example_posts/${post.fileName}`);
 
     return (
         <div>
-            <h1>{metadata.title}</h1>
-            <div dangerouslySetInnerHTML={{ __html: content }} />
+            <div className="prose">
+                <div dangerouslySetInnerHTML={{ __html: content }} />
+            </div>
         </div>
     );
 } 

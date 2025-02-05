@@ -9,7 +9,7 @@ export default function Home() {
       <h1 className="text-4xl font-bold text-center mb-4">My Blog</h1>
       <ul>
         {posts.map(post => (
-          <li key={post.fileName} className="list-none bg-white p-4 rounded-md">
+          <li key={post.fileName} className="list-none bg-white p-4 rounded-md mb-4">
             <Link href={`/post/${post.fileName.replace(/\.md$/, "")}`}>
               <PostItem post={post} />
             </Link>
