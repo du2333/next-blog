@@ -26,3 +26,14 @@ export function getSortedPosts(): Post[] {
     return posts.sort((a, b) => b.date.getTime() - a.date.getTime());
 }
 
+export function getTotalPages(pageSize: number = 5): number {
+    const posts = getSortedPosts();
+    return Math.ceil(posts.length / pageSize);
+}
+
+export function getPostsByPage(page: number, pageSize: number = 5): Post[] {
+    const posts = getSortedPosts();
+    return posts.slice((page - 1) * pageSize, page * pageSize);
+}
+
+
