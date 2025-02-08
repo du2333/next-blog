@@ -1,4 +1,5 @@
 import "./globals.css";
+import SearchModal from "@/components/SearchModal";
 import TagCloud from "@/components/TagCloud";
 
 export default function RootLayout({
@@ -12,9 +13,7 @@ export default function RootLayout({
         <div className="max-w-7xl mx-auto px-4 py-8 flex gap-8 justify-center">
           {/* 主内容区 */}
           <main className="flex-1 max-w-3xl">
-            <div className="mb-8">
-              {/* <SearchBar /> */}
-            </div>
+            <SearchModal />
             {children}
           </main>
 

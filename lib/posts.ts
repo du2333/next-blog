@@ -1,9 +1,11 @@
+"use server";
+
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 import { Post } from "@/lib/interfaces";
 
-export function getSortedPosts(): Post[] {
+export async function getSortedPosts(): Promise<Post[]> {
     const directoryPath = path.join(process.cwd(), "example_posts");
     const fileNames = fs.readdirSync(directoryPath);
 
@@ -29,8 +31,8 @@ export function getSortedPosts(): Post[] {
 
 
 // 新增获取所有标签的函数
-export function getAllTags(): Record<string, number> {
-    const posts = getSortedPosts();
+export async function getAllTags(): Promise<Record<string, number>> {
+    const posts = await getSortedPosts();
     const tagCount: Record<string, number> = {};
 
     posts.forEach(post => {

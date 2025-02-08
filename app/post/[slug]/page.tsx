@@ -4,14 +4,14 @@ import { notFound } from "next/navigation";
 
 // 在build时生成所有post的静态页面
 export async function generateStaticParams() {
-    const posts = getSortedPosts();
+    const posts = await getSortedPosts();
     return posts.map(post => ({
         slug: post.fileName.replace(/\.md$/, "").replace(/ /g, "-"), // Replace spaces with hyphens
     }));
 }
 
 export default async function PostPage({ params }: { params: Promise<{ slug: string }> }) {
-    const posts = getSortedPosts();
+    const posts = await getSortedPosts();
     const { slug } = await params;
     const post = posts.find(post => post.fileName.replace(/\.md$/, "").replace(/ /g, "-") === slug);
 

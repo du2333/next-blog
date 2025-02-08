@@ -7,12 +7,12 @@ import { getPostsByPage, getTotalPages } from "@/lib/utils";
 export default async function Home(props: {
   searchParams: Promise<{ page: string }>
 }) {
-  const allPosts = getSortedPosts();
-  const totalPages = getTotalPages(allPosts);
+  const allPosts = await getSortedPosts();
+  const totalPages = await getTotalPages(allPosts);
   const searchParams = await props.searchParams;
   const currentPage = Number(searchParams.page) || 1;
 
-  const posts = getPostsByPage(allPosts, currentPage);
+  const posts = await getPostsByPage(allPosts, currentPage);
 
   return (
     <div>

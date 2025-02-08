@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { getAllTags } from "@/lib/posts";
 
-export default function TagCloud() {
-    const tags = getAllTags();
+export default async function TagCloud() {
+    const tags = await getAllTags();
     
     return (
         <div className="space-y-2">

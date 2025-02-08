@@ -10,10 +10,10 @@ export default async function TagPage(props: { params: Params, searchParams: sea
     const { tag } = await props.params;
     const { page } = await props.searchParams;
 
-    const allPosts = getPostsByTag(tag);
-    const totalPages = getTotalPages(allPosts);
+    const allPosts = await getPostsByTag(tag);
+    const totalPages = await getTotalPages(allPosts);
     const currentPage = Number(page) || 1;
-    const posts = getPostsByPage(allPosts, currentPage);
+    const posts = await getPostsByPage(allPosts, currentPage);
 
     return (
         <div>
