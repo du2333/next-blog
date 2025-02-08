@@ -18,3 +18,8 @@ export async function getPostsBySearch(query: string): Promise<Post[]> {
     const posts = await getSortedPosts();
     return posts.filter(post => post.title.toLowerCase().includes(query.toLowerCase()) || post.content.toLowerCase().includes(query.toLowerCase()));
 }
+
+export async function getPostBySlug(slug: string): Promise<Post | undefined> {
+    const posts = await getSortedPosts();
+    return posts.find(post => post.fileName.replace(/\.md$/, "") === slug);
+}
