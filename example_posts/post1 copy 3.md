@@ -1,6 +1,7 @@
 ---
 title: Post example 3
 date: 2023-02-04
+tags: ["anime", "waifu"]
 ---
 
 # Example Markdown Post

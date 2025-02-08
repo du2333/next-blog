@@ -4,4 +4,5 @@ export interface Post {
     preview: string;
     title: string;
     date: Date;
+    tags: string[];
 }

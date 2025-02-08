@@ -8,7 +8,7 @@ function PageLink({ number, isActive }: { number: number; isActive: boolean }) {
     );
 }
 
-export function Pagination({ currentPage, totalPages }: { currentPage: number; totalPages: number }) {
+export default function Pagination({ currentPage, totalPages }: { currentPage: number; totalPages: number }) {
     const getPageLinks = () => {
         const links = [];
         if (totalPages <= 5) {

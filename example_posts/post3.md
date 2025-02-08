@@ -1,6 +1,7 @@
 ---
 title: How to use markdown
 date: 2024-01-03
+tags: ["test", "test2"]
 ---
 
 # How to use markdown

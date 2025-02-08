@@ -1,6 +1,7 @@
 ---
 title: Post example 1
 date: 2023-02-04
+tags: ["entertainment", "test"]
 ---
 
 # Example Markdown Post

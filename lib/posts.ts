@@ -18,7 +18,8 @@ export function getSortedPosts(): Post[] {
                 content,
                 title: data.title,
                 date: data.date,
-                preview: content.slice(0, 100) + "..."
+                preview: content.slice(0, 100) + "...",
+                tags: data.tags || []  // 新增tags字段
             };
         });
 
@@ -26,14 +27,20 @@ export function getSortedPosts(): Post[] {
     return posts.sort((a, b) => b.date.getTime() - a.date.getTime());
 }
 
-export function getTotalPages(pageSize: number = 5): number {
+
+// 新增获取所有标签的函数
+export function getAllTags(): Record<string, number> {
     const posts = getSortedPosts();
-    return Math.ceil(posts.length / pageSize);
+    const tagCount: Record<string, number> = {};
+
+    posts.forEach(post => {
+        post.tags?.forEach(tag => {
+            tagCount[tag] = (tagCount[tag] || 0) + 1;
+        });
+    });
+
+    return tagCount;
 }
 
-export function getPostsByPage(page: number, pageSize: number = 5): Post[] {
-    const posts = getSortedPosts();
-    return posts.slice((page - 1) * pageSize, page * pageSize);
-}
 
 

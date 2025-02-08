@@ -1,20 +1,21 @@
-import { getPostsByPage, getTotalPages } from "@/lib/posts";
 import Link from "next/link";
 import PostItem from "@/components/PostItem";
-import { Pagination } from "@/components/pagination";
+import Pagination from "@/components/pagination";
+import { getSortedPosts } from "@/lib/posts";
+import { getPostsByPage, getTotalPages } from "@/lib/utils";
 
 export default async function Home(props: {
   searchParams: Promise<{ page: string }>
 }) {
-  const totalPages = getTotalPages();
+  const allPosts = getSortedPosts();
+  const totalPages = getTotalPages(allPosts);
   const searchParams = await props.searchParams;
   const currentPage = Number(searchParams.page) || 1;
 
-  const posts = getPostsByPage(currentPage);
+  const posts = getPostsByPage(allPosts, currentPage);
 
   return (
     <div>
-      <h1 className="text-4xl font-bold text-center mb-4">Blog</h1>
       <ul>
         {posts.length > 0 ? posts.map(post => (
           <li key={post.fileName} className="list-none bg-white p-4 rounded-md mb-4">
@@ -29,7 +30,7 @@ export default async function Home(props: {
           </div>
         )}
       </ul>
-      <Pagination currentPage={currentPage} totalPages={totalPages} />
+      {totalPages > 1 && <Pagination currentPage={currentPage} totalPages={totalPages} />}
     </div>
   );
 }
