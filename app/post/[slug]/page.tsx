@@ -6,14 +6,16 @@ import { notFound } from "next/navigation";
 export async function generateStaticParams() {
     const posts = await getSortedPosts();
     return posts.map(post => ({
-        slug: post.fileName.replace(/\.md$/, "").replace(/ /g, "-"), // Replace spaces with hyphens
+        // slug: post.fileName.replace(/\.md$/, ""), // Replace spaces with hyphens
+        slug: post.fileName.replace(/\.md$/, "")
     }));
 }
 
 export default async function PostPage({ params }: { params: Promise<{ slug: string }> }) {
     const posts = await getSortedPosts();
     const { slug } = await params;
-    const post = posts.find(post => post.fileName.replace(/\.md$/, "").replace(/ /g, "-") === slug);
+    // const post = posts.find(post => post.fileName.replace(/\.md$/, "") === slug);
+    const post = posts.find(post => post.fileName.replace(/\.md$/, "") === decodeURIComponent(slug));
 
     if (!post) {
         return notFound();

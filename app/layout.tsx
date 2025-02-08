@@ -1,6 +1,7 @@
 import "./globals.css";
 import SearchModal from "@/components/SearchModal";
 import TagCloud from "@/components/TagCloud";
+import Link from "next/link";
 
 export default function RootLayout({
   children,
@@ -12,8 +13,16 @@ export default function RootLayout({
       <body className="min-h-screen bg-gray-100">
         <div className="max-w-7xl mx-auto px-4 py-8 flex gap-8 justify-center">
           {/* 主内容区 */}
-          <main className="flex-1 max-w-3xl">
-            <SearchModal />
+          <main className="max-w-3xl">
+            <div className="flex items-center">
+              <Link
+                href="/"
+                className="text-2xl font-bold hover:border-b-2 hover:border-black"
+              >
+                主页
+              </Link>
+              <SearchModal />
+            </div>
             {children}
           </main>
 

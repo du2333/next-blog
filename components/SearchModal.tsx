@@ -65,7 +65,7 @@ export default function SearchModal() {
                                             {results.map(post => (
                                                 <Link
                                                     key={post.fileName}
-                                                    href={`/post/${post.fileName.replace(/\.md$/, "").replace(/ /g, "-")}`}
+                                                    href={`/post/${post.fileName.replace(/\.md$/, "")}`}
                                                     className="block p-3 hover:bg-gray-100 rounded-lg transition-colors"
                                                     onClick={() => setIsOpen(false)}
                                                 >

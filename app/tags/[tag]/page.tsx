@@ -21,7 +21,7 @@ export default async function TagPage(props: { params: Params, searchParams: sea
             <ul className="space-y-4">
                 {posts.length > 0 ? posts.map(post => (
                     <li key={post.fileName} className="list-none bg-white p-4 rounded-md mb-4">
-                        <Link href={`/post/${post.fileName.replace(/\.md$/, "").replace(/ /g, "-")}`}>
+                        <Link href={`/post/${post.fileName.replace(/\.md$/, "")}`}>
                             <PostItem post={post} />
                         </Link>
                     </li>
