@@ -21,7 +21,7 @@ export async function getSortedPosts(): Promise<Post[]> {
                 title: data.title,
                 date: data.date,
                 preview: content.slice(0, 100) + "...",
-                tags: data.tags || []  // 新增tags字段
+                tags: data.tags || []
             };
         });
 

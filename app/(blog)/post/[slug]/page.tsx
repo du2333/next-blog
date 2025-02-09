@@ -7,7 +7,7 @@ import { getSortedPosts } from "@/lib/posts";
 export async function generateStaticParams() {
     const posts = await getSortedPosts();
     return posts.map(post => ({
-        slug: post.fileName.replace(/\.md$/, "")
+        slug: post.fileName.replace(/\.md$/, "")    
     }));
 }
 

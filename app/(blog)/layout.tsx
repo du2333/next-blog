@@ -1,9 +1,9 @@
-import "./globals.css";
+import "@/app/globals.css";
 import SearchModal from "@/components/SearchModal";
 import TagCloud from "@/components/TagCloud";
 import Link from "next/link";
 
-export default function RootLayout({
+export default function BlogLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
