@@ -1,16 +1,9 @@
-'use client';
-
-import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Post } from '@/lib/interfaces';
 import { getSortedPosts } from '@/lib/posts';
+import DeleteButton from '@/components/DeleteButton';
 
-export default function AdminPage() {
-    const [posts, setPosts] = useState<Post[]>([]);
-
-    useEffect(() => {
-        getSortedPosts().then(setPosts);
-    }, []);
+export default async function AdminPage() {
+    const posts = await getSortedPosts();
 
     return (
         <div className="max-w-4xl mx-auto p-6">
@@ -27,8 +20,11 @@ export default function AdminPage() {
                 {posts.map(post => (
                     <div key={post.fileName} className="border p-4 rounded-lg flex justify-between items-center">
                         <div>
-                            <h2 className="text-xl font-semibold">{post.title}</h2>
-                            <p className="text-sm text-gray-500 mt-1">{post.fileName}</p>
+                            <div className="flex items-center gap-2">
+                                <h2 className="text-xl font-semibold">{post.title}</h2>
+                                <p className="text-sm text-gray-500 mt-1">{post.fileName}</p>
+                            </div>
+                            <p className="text-sm text-gray-500 mt-1">{post.preview}</p>
                         </div>
                         <div className="flex gap-2">
                             <Link
@@ -37,7 +33,7 @@ export default function AdminPage() {
                             >
                                 编辑
                             </Link>
-                            <button className="text-red-500 hover:underline">删除</button>
+                            <DeleteButton fileName={post.fileName} />
                         </div>
                     </div>
                 ))}
