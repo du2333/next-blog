@@ -1,6 +1,6 @@
 import { renderMarkdown } from "@/lib/renderMarkdown";
 import { notFound } from "next/navigation";
-import { getPostBySlug } from "@/lib/utils";
+import { getPostBySlug } from "@/lib/posts";
 import { getSortedPosts } from "@/lib/posts";
 
 // 在build时生成所有post的静态页面

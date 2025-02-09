@@ -1,4 +1,4 @@
-import { getPostsBySearch } from '@/lib/utils';
+import { getPostsBySearch } from '@/lib/posts';
 import Link from 'next/link';
 
 export default async function Results({ query }: { query: string }) {

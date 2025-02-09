@@ -27,7 +27,6 @@ export default function Search() {
                 placeholder="输入关键词搜索..."
                 onChange={(e) => handleSearch(e.target.value)}
                 className="w-full p-4 text-lg border-b-2 focus:outline-none focus:border-blue-500 mb-8"
-                autoFocus
                 defaultValue={searchParams.get('q')?.toString()}
             />
         </div>

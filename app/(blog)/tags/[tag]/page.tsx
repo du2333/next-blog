@@ -1,7 +1,9 @@
 import PostItem from "@/components/PostItem";
-import { getPostsByPage, getPostsByTag, getTotalPages } from "@/lib/utils";
+import { getPostsByTag } from "@/lib/posts";
+
 import Link from "next/link";
 import Pagination from "@/components/pagination";
+import { getPostsByPage, getTotalPages } from "@/lib/utils";
 
 type Params = { tag: string }
 type searchParams = { page: string }
