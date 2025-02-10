@@ -2,7 +2,7 @@ import { getPostBySlug, updatePost } from '@/lib/posts';
 import { notFound, redirect } from 'next/navigation';
 
 export default async function EditPage({ params }: { params: { slug: string } }) {
-    const post = await getPostBySlug(params.slug);
+    const post = await getPostBySlug(decodeURIComponent(params.slug));
 
     if (!post) return notFound();
 

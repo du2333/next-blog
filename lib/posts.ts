@@ -46,7 +46,7 @@ export async function getAllTags(): Promise<Record<string, number>> {
 }
 
 export async function createPost({ title, content, tags }: { title: string; content: string; tags?: string[] }) {
-    const fileName = `${Date.now()}-${title.toLowerCase().replace(/ /g, '-')}.md`;
+    const fileName = `${Date.now()}-${title.toLowerCase()}.md`;
     const filePath = path.join(postsDirectory, fileName);
 
     const frontmatter = `---\ntitle: ${title}\ndate: ${new Date().toISOString()}\ntags: [${tags?.join(',')}]\n---\n\n`;
@@ -67,7 +67,7 @@ export async function deletePost(fileName: string) {
 }
 
 export async function updatePost(originalFileName: string, { title, content, tags }: { title: string; content: string; tags?: string[] }) {
-    const newFileName = `${Date.now()}-${title.toLowerCase().replace(/ /g, '-')}.md`;
+    const newFileName = `${Date.now()}-${title.toLowerCase()}.md`;
     const oldPath = path.join(postsDirectory, originalFileName);
     const newPath = path.join(postsDirectory, newFileName);
 
