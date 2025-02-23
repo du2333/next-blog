@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getSortedPosts } from "@/actions/posts";
+import { getSortedPosts } from "@/lib/posts";
 import DeleteButton from "@/components/DeleteButton";
 
 export default async function AdminPage() {

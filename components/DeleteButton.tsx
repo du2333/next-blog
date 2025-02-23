@@ -1,6 +1,6 @@
 "use client";
 
-import { deletePost } from "@/actions/posts";
+import { deletePost } from "@/lib/posts";
 import {
   Description,
   Dialog,

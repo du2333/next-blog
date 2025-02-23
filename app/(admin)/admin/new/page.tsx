@@ -1,4 +1,4 @@
-import { createPost } from "@/actions/posts";
+import { createPost } from "@/lib/posts";
 import { redirect } from "next/navigation";
 
 export default function NewPostPage() {

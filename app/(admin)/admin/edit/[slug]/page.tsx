@@ -1,4 +1,4 @@
-import { getPostBySlug, updatePost } from "@/actions/posts";
+import { getPostBySlug, updatePost } from "@/lib/posts";
 import { notFound, redirect } from "next/navigation";
 
 export default async function EditPage({

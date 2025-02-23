@@ -1,7 +1,7 @@
-import { renderMarkdown } from "@/actions/renderMarkdown";
+import { renderMarkdown } from "@/lib/renderMarkdown";
 import { notFound } from "next/navigation";
-import { getPostBySlug } from "@/actions/posts";
-import { getSortedPosts } from "@/actions/posts";
+import { getPostBySlug } from "@/lib/posts";
+import { getSortedPosts } from "@/lib/posts";
 
 // 在build时生成所有post的静态页面
 export async function generateStaticParams() {

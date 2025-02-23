@@ -1,5 +1,5 @@
 import PostItem from "@/components/PostItem";
-import { getPostsByTag } from "@/actions/posts";
+import { getPostsByTag } from "@/lib/posts";
 
 import Link from "next/link";
 import Pagination from "@/components/Pagination";

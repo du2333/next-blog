@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getAllTags } from "@/actions/posts";
+import { getAllTags } from "@/lib/posts";
 
 export default async function TagCloud() {
   const tags = await getAllTags();

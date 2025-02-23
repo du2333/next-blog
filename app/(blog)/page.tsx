@@ -1,7 +1,7 @@
 import Link from "next/link";
 import PostItem from "@/components/PostItem";
 import Pagination from "@/components/Pagination";
-import { getSortedPosts } from "@/actions/posts";
+import { getSortedPosts } from "@/lib/posts";
 import { getPostsByPage, getTotalPages } from "@/lib/utils";
 
 export default async function Home(props: {
