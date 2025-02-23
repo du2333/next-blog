@@ -1,12 +1,20 @@
 import Link from "next/link";
 import { getSortedPosts } from "@/lib/posts";
 import DeleteButton from "@/components/DeleteButton";
+import { getUser } from "@/lib/dal";
+import { redirect } from "next/navigation";
 
 export default async function AdminPage() {
+  const user = await getUser();
+  if (!user) {
+    redirect("/login");
+  }
+
   const posts = await getSortedPosts();
 
   return (
     <div className="max-w-4xl mx-auto p-6">
+      <p>欢迎回来，{user.name}</p>
       <h1 className="text-2xl font-bold mb-6">文章管理</h1>
       <div className="mb-4">
         <Link
