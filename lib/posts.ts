@@ -100,6 +100,9 @@ export async function getPostsByTag(tag: string): Promise<Post[]> {
 }
 
 export async function getPostsBySearch(query: string): Promise<Post[]> {
+  // intentionally slow down the search
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+
   const posts = await getSortedPosts();
   return posts.filter(
     (post) =>

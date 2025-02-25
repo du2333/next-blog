@@ -26,10 +26,8 @@ export default async function PostPage({
   const { content } = await renderMarkdown(`example_posts/${post.fileName}`);
 
   return (
-    <div>
-      <div className="prose prose-slate lg:prose-lg max-w-none">
-        <div dangerouslySetInnerHTML={{ __html: content }} />
-      </div>
-    </div>
+    <article className="prose text-base-content">
+      <div dangerouslySetInnerHTML={{ __html: content }} />
+    </article>
   );
 }

@@ -22,7 +22,7 @@ export default async function Home(props: {
           posts.map((post) => (
             <li
               key={post.fileName}
-              className="list-none bg-white p-4 rounded-md mb-4"
+              className="list-none mb-4"
             >
               <Link href={`/post/${post.fileName.replace(/\.md$/, "")}`}>
                 <PostItem post={post} />

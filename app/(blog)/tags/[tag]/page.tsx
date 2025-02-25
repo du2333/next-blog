@@ -22,13 +22,13 @@ export default async function TagPage(props: {
 
   return (
     <div>
-      <h1 className="text-3xl font-bold mb-6">标签: {tag}</h1>
+      <h1 className="text-3xl font-bold mb-6 text-base-content">标签: {tag}</h1>
       <ul className="space-y-4">
         {posts.length > 0 ? (
           posts.map((post) => (
             <li
               key={post.fileName}
-              className="list-none bg-white p-4 rounded-md mb-4"
+              className="list-nonemb-4"
             >
               <Link href={`/post/${post.fileName.replace(/\.md$/, "")}`}>
                 <PostItem post={post} />

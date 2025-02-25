@@ -6,6 +6,7 @@ export default async function LoginPage() {
     <div className="flex justify-center items-center h-screen">
       <LoginForm />
       <button
+        className="btn btn-error"
         onClick={async () => {
           "use server";
           await logout();

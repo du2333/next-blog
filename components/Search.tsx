@@ -21,12 +21,12 @@ export default function Search() {
     }, 300);
 
     return (
-        <div className="w-full">
+        <div className="w-full mb-8">
             <input
                 type="text"
                 placeholder="输入关键词搜索..."
                 onChange={(e) => handleSearch(e.target.value)}
-                className="w-full p-4 text-lg border-b-2 focus:outline-none focus:border-blue-500 mb-8"
+                className="w-full text-base-content input input-bordered input-primary"
                 defaultValue={searchParams.get('q')?.toString()}
             />
         </div>
