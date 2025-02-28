@@ -6,13 +6,33 @@ const userData: Prisma.UserCreateInput[] = [
   {
     email: "1@1.com",
     password: "test1234",
+    role: "ADMIN",
   },
 ];
 
 const postData: Prisma.PostCreateInput[] = [
   {
     title: "My first post",
-    tags: ["test", "test2"],
+    tags: {
+      create: [
+        {
+          tag: {
+            connectOrCreate: {
+              where: { name: "教程" },
+              create: { name: "教程" },
+            },
+          },
+        },
+        {
+          tag: {
+            connectOrCreate: {
+              where: { name: "技术" },
+              create: { name: "技术" },
+            },
+          },
+        },
+      ],
+    },
     content: `# Header 1
 
 ## Header 2
@@ -62,6 +82,7 @@ def hello_world():
 \`\`\`
 
 `,
+    slug: "my-first-post",
   },
 ];
 
