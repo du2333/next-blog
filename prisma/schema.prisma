@@ -18,8 +18,8 @@ model User {
 model Post {
   id        String   @id @default(uuid())
   title     String
+  tags      String[]
   content   String
-  authorId  String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
