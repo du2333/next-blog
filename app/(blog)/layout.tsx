@@ -10,7 +10,7 @@ export default function BlogLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <ThemeProvider>
         <body className="min-h-screen bg-base-100">
           <Navbar />
