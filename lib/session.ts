@@ -1,65 +1,30 @@
-"use server";
-
-import "server-only";
-import { SignJWT, jwtVerify } from "jose";
-import { SessionPayload } from "@/lib/definitions";
 import { cookies } from "next/headers";
-import { cache } from "react";
-import { redirect } from "next/navigation";
+import { z } from "zod";
+import { Role } from "@prisma/client";
+import prisma from "./prisma";
 
-const secretKey = process.env.SESSION_SECRET;
-const encodedKey = new TextEncoder().encode(secretKey);
+const SESSION_DURATION_IN_SECONDS = 10;
 
-// const sessionDuration = 7 * 24 * 60 * 60 * 1000;
-const sessionDuration = 60 * 1000; // 60 seconds
+export const sessionSchema = z.object({
+  id: z.string(),
+  role: z.nativeEnum(Role),
+});
 
-export async function encrypt(payload: SessionPayload) {
-  return new SignJWT(payload)
-    .setProtectedHeader({ alg: "HS256" })
-    .setIssuedAt()
-    .setExpirationTime(new Date(Date.now() + sessionDuration))
-    .sign(encodedKey);
-}
+type UserSession = z.infer<typeof sessionSchema>;
 
-export async function decrypt(session: string | undefined = "") {
-  try {
-    const { payload } = await jwtVerify(session, encodedKey, {
-      algorithms: ["HS256"],
-    });
-    return payload;
-  } catch (error) {
-    console.log("Failed to verify session: ", error);
-    return null;
-  }
-}
-
-export async function createSession(userId: string) {
-  const expiresAt = new Date(Date.now() + sessionDuration);
-  const session = await encrypt({ userId, expiresAt });
-  const cookieStore = await cookies();
-
-  cookieStore.set("session", session, {
-    httpOnly: true,
-    secure: true,
-    expires: expiresAt,
-    sameSite: "lax",
-    path: "/",
+export async function createUserSession(user: UserSession) {
+  const session = await prisma.session.create({
+    data: {
+      userId: user.id,
+      expiresAt: new Date(Date.now() + SESSION_DURATION_IN_SECONDS * 1000),
+    },
   });
-}
-
-export async function updateSession() {
-  const session = (await cookies()).get("session")?.value;
-  const payload = await decrypt(session);
-  if (!session || !payload) {
-    return;
-  }
-  const expires = new Date(Date.now() + sessionDuration);
 
   const cookieStore = await cookies();
-  cookieStore.set("session", session, {
+  cookieStore.set("session-id", session.id, {
     httpOnly: true,
     secure: true,
-    expires: expires,
+    expires: session.expiresAt,
     sameSite: "lax",
     path: "/",
   });
@@ -67,16 +32,30 @@ export async function updateSession() {
 
 export async function deleteSession() {
   const cookieStore = await cookies();
-  cookieStore.delete("session");
+  const sessionId = cookieStore.get("session-id")?.value;
+  if (!sessionId) return;
+  await prisma.session.delete({
+    where: { id: sessionId },
+  });
+  cookieStore.delete("session-id");
 }
 
-export const verifySession = cache(async () => {
-  const cookie = (await cookies()).get("session")?.value;
-  const session = await decrypt(cookie);
+export async function getCookieFromSession() {
+  const cookieStore = await cookies();
+  const sessionId = cookieStore.get("session-id")?.value;
+  if (!sessionId) return null;
+  return getUserSessionById(sessionId);
+}
 
-  if (!session?.userId) {
-    redirect("/login");
-  }
+async function getUserSessionById(sessionId: string) {
+  const session = await prisma.session.findUnique({
+    where: { id: sessionId },
+    include: { user: true },
+  });
+  if (!session) return null;
 
-  return { isAuth: true, userId: session.userId };
-});
+  const rawUser = session.user;
+
+  const { success, data: user } = sessionSchema.safeParse(rawUser);
+  return success ? user : null;
+}

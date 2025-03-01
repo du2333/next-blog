@@ -2,7 +2,6 @@ import "@/app/globals.css";
 import Navbar from "@/components/Navbar";
 import TagCloud from "@/components/TagCloud";
 import Footer from "@/components/Footer";
-import { ThemeProvider } from "next-themes";
 
 export default function BlogLayout({
   children,
@@ -10,8 +9,7 @@ export default function BlogLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <ThemeProvider>
+    <html lang="en">
         <body className="min-h-screen bg-base-100">
           <Navbar />
           <div className="max-w-6xl mx-auto flex gap-8 mt-8 mb-8">
@@ -24,7 +22,6 @@ export default function BlogLayout({
           </div>
           <Footer />
         </body>
-      </ThemeProvider>
     </html>
   );
 }

@@ -14,14 +14,4 @@ export default {
       },
     },
   },
-  plugins: [
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    require("@tailwindcss/typography"),
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    require("daisyui"),
-  ],
-  daisyui: {
-    themes: ["light", "dark"],
-  },
-  darkMode: ["selector", '[data-theme="dark"]'],
 } satisfies Config;
