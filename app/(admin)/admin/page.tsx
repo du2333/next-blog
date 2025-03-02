@@ -1,11 +1,12 @@
 import Link from "next/link";
 import { getSortedPosts } from "@/lib/posts";
 import DeleteButton from "@/components/DeleteButton";
-import { getCurrentUser } from "@/lib/currentUser";
 import LogOutButton from "@/components/LogOutButton";
+import { getCurrentUser } from "@/lib/currentUser";
 export default async function AdminPage() {
   const posts = await getSortedPosts();
-  const user = await getCurrentUser();
+
+  const user = await getCurrentUser({ redirectIfNotFound: false });
 
   return (
     <div className="max-w-4xl mx-auto p-6">

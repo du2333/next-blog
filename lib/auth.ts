@@ -5,6 +5,7 @@ import { createUserSession, deleteSession } from "@/lib/session";
 import { redirect } from "next/navigation";
 import prisma from "./prisma";
 import { comparePassword, hashPassword } from "./passwordHasher";
+import { cookies } from "next/headers";
 
 export async function signup(state: FormState, formData: FormData) {
   const validatedFields = SignupFormSchema.safeParse({
@@ -46,7 +47,7 @@ export async function signup(state: FormState, formData: FormData) {
         errors: { email: ["Failed to create user"] },
       };
     }
-    await createUserSession(user);
+    await createUserSession(user, await cookies());
   } catch {
     return {
       errors: { email: ["Failed to create user"] },
@@ -86,12 +87,12 @@ export async function login(state: FormState, formData: FormData) {
     };
   }
 
-  await createUserSession(user);
+  await createUserSession(user, await cookies());
 
   redirect("/admin");
 }
 
 export async function logout() {
-  await deleteSession();
+  await deleteSession(await cookies());
   redirect("/login");
 }

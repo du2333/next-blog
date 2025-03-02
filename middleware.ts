@@ -1,32 +1,27 @@
 import { NextRequest, NextResponse } from "next/server";
-
-// 1. Specify protected and public routes
 const protectedRoutes = ["/admin"];
-const publicRoutes = ["/login", "/signup", "/"];
+const publicRoutes = ["/login", "/signup"];
 
-export default async function middleware(req: NextRequest) {
-  // 2. Check if the current route is protected or public
+export async function middleware(req: NextRequest) {
   const path = req.nextUrl.pathname;
-  const isProtectedRoute = protectedRoutes.includes(path);
+
+  const isProtectedRoute = protectedRoutes.some((route) =>
+    path.startsWith(route)
+  );
   const isPublicRoute = publicRoutes.includes(path);
 
-  // // 3. get the session from the cookie
-  const session = {
-    id: "123",
-  } /*TODO: FIX*/
+  const apiUrl = new URL("/api/get-user", req.nextUrl.origin);
+  const user = await fetch(apiUrl, {
+    headers: {
+      cookie: req.headers.get("cookie") || "",
+    },
+  }).then((res) => res.json());
 
-  // // 4. Redirect to /login if the user is not authenticated
-  if (isProtectedRoute && !session) {
-    /*TODO: FIX*/
+  if (isProtectedRoute && !user) {
     return NextResponse.redirect(new URL("/login", req.nextUrl));
   }
 
-  // // 5. Redirect to /dashboard if the user is authenticated
-  if (
-    isPublicRoute &&
-    session?.id &&
-    !req.nextUrl.pathname.startsWith("/admin")
-  ) {
+  if (isPublicRoute && user) {
     return NextResponse.redirect(new URL("/admin", req.nextUrl));
   }
 
@@ -36,7 +31,6 @@ export default async function middleware(req: NextRequest) {
 // Routes Middleware should not run on
 export const config = {
   matcher: [
-    "/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*) ",
-    "/(api|trpc)(.*)",
+    "/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)",
   ],
 };
