@@ -40,7 +40,7 @@ export async function deleteSession() {
   cookieStore.delete("session-id");
 }
 
-export async function getCookieFromSession() {
+export async function getUserFromSession() {
   const cookieStore = await cookies();
   const sessionId = cookieStore.get("session-id")?.value;
   if (!sessionId) return null;
