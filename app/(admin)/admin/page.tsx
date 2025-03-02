@@ -3,6 +3,8 @@ import { getSortedPosts } from "@/lib/posts";
 import DeleteButton from "@/components/DeleteButton";
 import LogOutButton from "@/components/LogOutButton";
 import { getCurrentUser } from "@/lib/currentUser";
+import ToggleButton from "@/components/ToggleButton";
+
 export default async function AdminPage() {
   const posts = await getSortedPosts();
 
@@ -16,6 +18,7 @@ export default async function AdminPage() {
             Welcome, {user.id} and {user.role}
           </h2>
         )}
+        <ToggleButton />
         <LogOutButton />
       </div>
       <h1 className="text-2xl font-bold mb-6 text-base-content">文章管理</h1>

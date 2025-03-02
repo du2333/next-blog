@@ -37,7 +37,37 @@ export async function createUserSession(
     },
   });
 
-  setCookie(session.id, cookies)
+  setCookie(session.id, cookies);
+}
+
+export async function updateSessionDb(cookies: Pick<Cookies, "get">) {
+  const sessionId = cookies.get(SESSION_COOKIE_KEY)?.value;
+  if (!sessionId) return;
+  await prisma.session.update({
+    where: { id: sessionId },
+    data: {
+      expiresAt: new Date(Date.now() + SESSION_DURATION_IN_SECONDS * 1000),
+    },
+  });
+}
+
+export async function updateSessionExpiration(
+  cookies: Pick<Cookies, "get">
+) {
+  const sessionId = cookies.get(SESSION_COOKIE_KEY)?.value;
+  if (!sessionId) return null;
+
+  const user = await getUserSessionById(sessionId);
+
+  if (!user) return null;
+
+  await updateSessionDb(cookies);
+
+  return {
+    sessionId,
+    expiresAt: Date.now() + SESSION_DURATION_IN_SECONDS * 1000,
+    sessionKey: SESSION_COOKIE_KEY,
+  };
 }
 
 export async function deleteSession(cookies: Pick<Cookies, "get" | "delete">) {
@@ -68,7 +98,7 @@ async function getUserSessionById(sessionId: string) {
   return success ? user : null;
 }
 
-function setCookie(sessionId: string, cookies: Pick<Cookies, "set">) {
+export function setCookie(sessionId: string, cookies: Pick<Cookies, "set">) {
   cookies.set(SESSION_COOKIE_KEY, sessionId, {
     httpOnly: true,
     secure: true,

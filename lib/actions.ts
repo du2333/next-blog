@@ -1,6 +1,9 @@
 "use server";
 
 import prisma from "@/lib/prisma";
+import { getCurrentUser } from "./currentUser";
+import { cookies } from "next/headers";
+import { updateSessionDb } from "./session";
 
 export async function getPosts() {
   const posts = await prisma.post.findMany({
@@ -16,3 +19,13 @@ export async function getUsers() {
   return users;
 }
 
+export async function toggleRole() {
+  const user = await getCurrentUser({ redirectIfNotFound: true });
+
+  await prisma.user.update({
+    where: { id: user.id },
+    data: { role: user.role === "ADMIN" ? "EDITOR" : "ADMIN" },
+  });
+
+  await updateSessionDb(await cookies());
+}
