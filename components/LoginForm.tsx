@@ -1,13 +1,18 @@
 "use client";
 
 import { login } from "@/lib/auth";
-import { useActionState } from "react";
+import { startTransition, useActionState } from "react";
 
 export function LoginForm() {
   const [state, action, pending] = useActionState(login, undefined);
 
   return (
-    <form action={action} className="flex flex-col gap-4">
+    <form onSubmit={
+      (e) => {
+        e.preventDefault()
+        startTransition(() => action(new FormData(e.currentTarget)))
+      }
+    } className="flex flex-col gap-4">
       <label className="floating-label">
         <span>Email</span>
         <input
