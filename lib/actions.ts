@@ -22,10 +22,10 @@ export async function getUsers() {
 export async function toggleRole() {
   const user = await getCurrentUser({ redirectIfNotFound: true });
 
-  await prisma.user.update({
+  const updatedUser = await prisma.user.update({
     where: { id: user.id },
     data: { role: user.role === "ADMIN" ? "EDITOR" : "ADMIN" },
   });
 
-  await updateSessionDb(await cookies());
+  await updateSessionDb(updatedUser, await cookies());
 }

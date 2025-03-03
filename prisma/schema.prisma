@@ -24,7 +24,6 @@ model User {
   role      Role      @default(ADMIN)
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
-  sessions  Session[]
 }
 
 model Post {
@@ -51,14 +50,4 @@ model TagOnPost {
   tagId  String
 
   @@id([postId, tagId])
-}
-
-model Session {
-  id        String   @id @default(uuid())
-  userId    String
-  expiresAt DateTime
-  user      User     @relation(fields: [userId], references: [id])
-
-  @@index([userId])
-  @@index([expiresAt])
 }

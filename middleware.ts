@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { updateSessionExpiration, getUserFromSession } from "./lib/session";
 
 const protectedRoutes = ["/admin"];
 const publicRoutes = ["/login", "/signup"];
@@ -7,24 +8,12 @@ export async function middleware(req: NextRequest) {
   const response = (await middlewareAuth(req)) ?? NextResponse.next();
 
   // 更新session的expiration
-  const res = await fetch(`${req.nextUrl.origin}/api/update-session`, {
-    method: "GET",
-    headers: {
-      cookie: req.headers.get("cookie") || "",
+  await updateSessionExpiration({
+    set: (key, value, options) => {
+      response.cookies.set({ ...options, name: key, value }); // 放到response中
     },
+    get: (key) => req.cookies.get(key), // 从request中获取cookie
   });
-
-  const session = await res.json();
-
-  if (session) {
-    const { sessionKey, sessionId, expiresAt } = session;
-    const expiresDate = new Date(expiresAt).toUTCString();
-
-    response.headers.set(
-      "Set-Cookie",
-      `${sessionKey}=${sessionId}; HttpOnly; Secure; SameSite=Lax; Expires=${expiresDate}; Path=/`
-    );
-  }
 
   return response;
 }
@@ -37,12 +26,7 @@ export async function middlewareAuth(req: NextRequest) {
   );
   const isPublicRoute = publicRoutes.includes(path);
 
-  const apiUrl = new URL("/api/get-user", req.nextUrl.origin);
-  const user = await fetch(apiUrl, {
-    headers: {
-      cookie: req.headers.get("cookie") || "",
-    },
-  }).then((res) => res.json());
+  const user = await getUserFromSession(req.cookies);
 
   if (isProtectedRoute && !user) {
     return NextResponse.redirect(new URL("/login", req.nextUrl));
