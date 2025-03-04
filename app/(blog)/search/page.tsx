@@ -7,14 +7,14 @@ import { getTotalPages } from "@/lib/actions";
 import { Suspense } from "react";
 
 export default async function SearchPage(props: {
-  searchParams: {
+  searchParams?: Promise<{
     q: string;
     page: string;
-  };
+  }>;
 }) {
   const searchParams = await props.searchParams;
-  const q = searchParams.q;
-  const page = Number(searchParams.page) || 1;
+  const q = searchParams?.q || "";
+  const page = Number(searchParams?.page) || 1;
 
   const totalPages = await getTotalPages(q);
 

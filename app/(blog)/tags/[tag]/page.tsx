@@ -9,11 +9,11 @@ type Params = { tag: string };
 type searchParams = { page: string };
 
 export default async function TagPage(props: {
-  params: Params;
-  searchParams: searchParams;
+  params: Promise<Params>;
+  searchParams?: Promise<searchParams>;
 }) {
   const { tag } = await props.params;
-  const { page } = await props.searchParams;
+  const { page } = await props.searchParams || { page: "1" };
 
   const decodedTag = decodeURIComponent(tag);
 
