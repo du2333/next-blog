@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { updateSessionExpiration, getUserFromSession } from "./lib/session";
 
-const protectedRoutes = ["/admin"];
+// const protectedRoutes = ["/admin"];
+const protectedRoutes = ["/asdasd"];
 const publicRoutes = ["/login", "/signup"];
 
 export async function middleware(req: NextRequest) {

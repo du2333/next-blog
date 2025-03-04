@@ -6,7 +6,7 @@ export default async function AdminPage() {
   const user = await getCurrentUser({ redirectIfNotFound: false });
 
   return (
-    <div className="max-w-4xl mx-auto p-6">
+    <section className="w-full h-screen">
       <div className="flex justify-between items-center">
         {user && (
           <h2 className="text-base-content text-lg">
@@ -16,6 +16,6 @@ export default async function AdminPage() {
         <ToggleButton />
         <LogOutButton />
       </div>
-    </div>
+    </section>
   );
 }
