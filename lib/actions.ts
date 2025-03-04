@@ -8,15 +8,6 @@ import { updateSessionDb } from "./session";
 const ITEMS_PER_PAGE = 10;
 
 // post CRUD
-export async function getPosts() {
-  const posts = await prisma.post.findMany({
-    orderBy: {
-      createdAt: "desc",
-    },
-  });
-  return posts;
-}
-
 export async function getFilteredPosts(query: string, currentPage: number) {
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
 
@@ -46,10 +37,29 @@ export async function getFilteredPosts(query: string, currentPage: number) {
         },
       ],
     },
+    orderBy: {
+      createdAt: "desc",
+    },
     skip: offset,
     take: ITEMS_PER_PAGE,
   });
 
+  return posts;
+}
+
+export async function getPostsByTag(tag: string, currentPage: number) {
+  const offset = (currentPage - 1) * ITEMS_PER_PAGE;
+
+  const posts = await prisma.post.findMany({
+    where: {
+      tags: { some: { tag: { name: tag } } },
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+    skip: offset,
+    take: ITEMS_PER_PAGE,
+  });
   return posts;
 }
 
@@ -86,6 +96,15 @@ export async function getTotalPages(query: string) {
           },
         },
       ],
+    },
+  });
+  return Math.ceil(total / ITEMS_PER_PAGE);
+}
+
+export async function getTotalPagesByTag(tag: string) {
+  const total = await prisma.post.count({
+    where: {
+      tags: { some: { tag: { name: tag } } },
     },
   });
   return Math.ceil(total / ITEMS_PER_PAGE);
