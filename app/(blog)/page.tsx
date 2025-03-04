@@ -15,7 +15,9 @@ export default async function Home() {
         <PostList currentPage={1} />
       </Suspense>
       <div className="mt-5 flex w-full justify-center">
-        <Pagination totalPages={totalPages} customPathname="/page" />
+        <Suspense>
+          <Pagination totalPages={totalPages} customPathname="/page" />
+        </Suspense>
       </div>
     </section>
   );
