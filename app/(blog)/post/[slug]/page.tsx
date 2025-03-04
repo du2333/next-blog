@@ -1,13 +1,12 @@
-import { renderMarkdown } from "@/lib/renderMarkdown";
-import { notFound } from "next/navigation";
-import { getPostBySlug } from "@/lib/posts";
-import { getSortedPosts } from "@/lib/posts";
+import { markdownRenderer } from "@/lib/MarkdownRenderer";
+import { getPosts, getPostBySlug } from "@/lib/actions";
+import ErrorCard from "@/components/ErrorCard";
 
 // 在build时生成所有post的静态页面
 export async function generateStaticParams() {
-  const posts = await getSortedPosts();
+  const posts = await getPosts();
   return posts.map((post) => ({
-    slug: post.fileName.replace(/\.md$/, ""),
+    slug: post.slug,
   }));
 }
 
@@ -20,14 +19,22 @@ export default async function PostPage({
   const post = await getPostBySlug(decodeURIComponent(slug));
 
   if (!post) {
-    return notFound();
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <ErrorCard error="Post not found" />
+      </div>
+    );
   }
 
-  const { content } = await renderMarkdown(`example_posts/${post.fileName}`);
+  const { content: htmlContent } = await markdownRenderer(post.content);
 
   return (
-    <article className="prose text-base-content">
-      <div dangerouslySetInnerHTML={{ __html: content }} />
+    <article className="prose text-base-content min-h-screen">
+      <div className="flex flex-col items-center">
+        <h1>{post.title}</h1>
+        <p className="text-neutral-content">Last updated: {post.updatedAt.toLocaleDateString()}</p>
+        <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
+      </div>
     </article>
   );
 }

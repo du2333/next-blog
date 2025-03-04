@@ -1,48 +1,41 @@
-import Link from "next/link";
-import PostItem from "@/components/PostItem";
 import Pagination from "@/components/Pagination";
-import { getSortedPosts } from "@/lib/posts";
-import { getPostsByPage, getTotalPages } from "@/lib/utils";
+import PostList from "@/components/PostList";
+import PostListSkeleton from "@/components/skeletons/PostListSkeleton";
+import { getTotalPages } from "@/lib/actions";
+import { Suspense } from "react";
+
+// 静态生成第一页
+export async function generateStaticParams() {
+  return [
+    {
+      searchParams: {
+        page: "1",
+      },
+    },
+  ];
+}
+
+export const revalidate = 3600; // 每小时重新生成
 
 export default async function Home(props: {
-  searchParams: Promise<{ page: string }>;
+  searchParams?: Promise<{
+    page?: string;
+  }>;
 }) {
-  const pageSize = 15;
-  const allPosts = await getSortedPosts();
-  const totalPages = await getTotalPages(allPosts, pageSize);
   const searchParams = await props.searchParams;
-  const currentPage = Number(searchParams.page) || 1;
 
-  const posts = await getPostsByPage(allPosts, currentPage, pageSize);
+  const currentPage = Number(searchParams?.page) || 1;
+
+  const totalPages = await getTotalPages('');
 
   return (
-    <div>
-      <ul>
-        {posts.length > 0 ? (
-          posts.map((post) => (
-            <li
-              key={post.fileName}
-              className="list-none mb-4"
-            >
-              <Link href={`/post/${post.fileName.replace(/\.md$/, "")}`}>
-                <PostItem post={post} />
-              </Link>
-            </li>
-          ))
-        ) : (
-          <div className="flex flex-col items-center justify-center h-screen gap-4">
-            <div className="text-2xl font-bold text-red-500">
-              No posts found
-            </div>
-            <Link href="/" className="hover:underline">
-              Go to Home
-            </Link>
-          </div>
-        )}
-      </ul>
-      {totalPages > 1 && (
-        <Pagination currentPage={currentPage} totalPages={totalPages} />
-      )}
-    </div>
+    <section className="w-full min-h-screen">
+      <Suspense fallback={<PostListSkeleton />}>
+        <PostList currentPage={currentPage} />
+      </Suspense>
+      <div className="mt-5 flex w-full justify-center">
+        <Pagination totalPages={totalPages} />
+      </div>
+    </section>
   );
 }
