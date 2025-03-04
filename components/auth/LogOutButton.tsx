@@ -8,7 +8,7 @@ export default function LogOutButton() {
       onClick={async () => {
         await logout();
       }}
-      className="btn btn-error text-base-content"
+      className="btn btn-error"
     >
       Logout
     </button>

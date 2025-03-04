@@ -2,6 +2,7 @@
 
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { useDebouncedCallback } from "use-debounce";
+import { Search as SearchIcon } from "lucide-react";
 
 export default function Search() {
   const router = useRouter();
@@ -21,14 +22,15 @@ export default function Search() {
   }, 300);
 
   return (
-    <div className="w-full mb-8">
+    <label className="input w-full mb-8">
+      <SearchIcon className="w-4 h-4" />
       <input
-        type="text"
+        type="search"
+        required
         placeholder="Search..."
         onChange={(e) => handleSearch(e.target.value)}
-        className="w-full text-base-content input input-bordered input-primary"
         defaultValue={searchParams.get("q")?.toString()}
       />
-    </div>
+    </label>
   );
 }

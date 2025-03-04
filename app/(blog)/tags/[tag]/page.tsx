@@ -21,7 +21,7 @@ export default async function TagPage(props: {
   const totalPages = await getTotalPagesByTag(decodedTag);
 
   return (
-    <div>
+    <section className="w-full min-h-screen">
       <h1 className="text-3xl font-bold mb-6 text-base-content">
         标签: {decodedTag}
       </h1>
@@ -31,6 +31,6 @@ export default async function TagPage(props: {
       <div className="flex justify-center mt-4">
         <Pagination totalPages={totalPages} />
       </div>
-    </div>
+    </section>
   );
 }

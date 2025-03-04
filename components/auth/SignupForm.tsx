@@ -2,6 +2,7 @@
 
 import { signup } from "@/lib/auth";
 import { useActionState, startTransition } from "react";
+import { Mail, KeyRound } from "lucide-react";
 
 export function SignupForm() {
   const [state, action, pending] = useActionState(signup, undefined);
@@ -14,27 +15,27 @@ export function SignupForm() {
       }}
       className="flex flex-col gap-4"
     >
-      <label className="floating-label">
+      <label className="floating-label input">
         <span>Email</span>
+        <Mail className="w-4 h-4" />
         <input
           id="email"
           name="email"
           type="email"
           placeholder="john@doe.com"
-          className="input input-md"
         />
       </label>
       {state?.errors?.email && (
         <p className="text-error">{state.errors.email}</p>
       )}
-      <label className="floating-label">
+      <label className="floating-label input">
         <span>Password</span>
+        <KeyRound className="w-4 h-4" />
         <input
           id="password"
           name="password"
           type="password"
           placeholder="Password"
-          className="input input-md"
         />
       </label>
       {state?.errors?.password && (
@@ -52,7 +53,7 @@ export function SignupForm() {
       <button
         type="submit"
         disabled={pending}
-        className="btn btn-primary text-base-content"
+        className="btn btn-primary"
       >
         Sign Up
       </button>

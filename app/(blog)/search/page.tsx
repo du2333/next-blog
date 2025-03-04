@@ -19,7 +19,7 @@ export default async function SearchPage(props: {
   const totalPages = await getTotalPages(q);
 
   return (
-    <div className="w-full">
+    <section className="w-full min-h-screen">
       <Search />
       <Suspense fallback={<PostListSkeleton />}>
         <PostList query={q} currentPage={Number(page)} />
@@ -27,6 +27,6 @@ export default async function SearchPage(props: {
       <div className="flex justify-center mt-4">
         <Pagination totalPages={totalPages} />
       </div>
-    </div>
+    </section>
   );
 }
