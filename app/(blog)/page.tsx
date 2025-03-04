@@ -8,9 +8,7 @@ import { Suspense } from "react";
 export async function generateStaticParams() {
   return [
     {
-      searchParams: {
-        page: "1",
-      },
+      searchParams: undefined,
     },
   ];
 }

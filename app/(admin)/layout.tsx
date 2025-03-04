@@ -3,5 +3,5 @@ export default function AdminLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <main className="max-w-6xl mx-auto p-6">{children}</main>;
+  return <main className="mx-auto mt-8 flex max-w-6xl mb-8">{children}</main>;
 }
