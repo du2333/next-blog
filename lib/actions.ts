@@ -91,6 +91,15 @@ export async function getTotalPages(query: string) {
   return Math.ceil(total / ITEMS_PER_PAGE);
 }
 
+export async function getAllTags() {
+  const tags = await prisma.tag.findMany({
+    include: {
+      posts: true,
+    },
+  });
+  return tags;
+}
+
 // authentication related
 export async function getUsers() {
   const users = await prisma.user.findMany();
