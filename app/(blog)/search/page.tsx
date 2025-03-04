@@ -1,25 +1,32 @@
 import Search from "@/components/Search";
-import SearchResults from "@/components/SearchResults";
+import PostListSkeleton from "@/components/skeletons/PostListSkeleton";
+import PostList from "@/components/PostList";
+import Pagination from "@/components/Pagination";
+
+import { getTotalPages } from "@/lib/actions";
 import { Suspense } from "react";
 
 export default async function SearchPage(props: {
-  searchParams: Promise<{ q: string }>;
+  searchParams: {
+    q: string;
+    page: string;
+  };
 }) {
   const searchParams = await props.searchParams;
-  const query = searchParams.q || "";
+  const q = searchParams.q;
+  const page = Number(searchParams.page) || 1;
+
+  const totalPages = await getTotalPages(q);
 
   return (
     <div className="w-full">
       <Search />
-      {query && (
-        <Suspense
-          fallback={
-            <span className="loading loading-spinner loading-lg text-base-content"></span>
-          }
-        >
-          <SearchResults query={query} />
-        </Suspense>
-      )}
+      <Suspense fallback={<PostListSkeleton />}>
+        <PostList query={q} currentPage={Number(page)} />
+      </Suspense>
+      <div className="flex justify-center mt-4">
+        <Pagination totalPages={totalPages} />
+      </div>
     </div>
   );
 }

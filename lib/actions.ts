@@ -119,6 +119,15 @@ export async function getAllTags() {
   return tags;
 }
 
+export async function getAllSlugs() {
+  const slugs = await prisma.post.findMany({
+    select: {
+      slug: true,
+    },
+  });
+  return slugs.map((slug) => slug.slug);
+}
+
 // authentication related
 export async function getUsers() {
   const users = await prisma.user.findMany();
