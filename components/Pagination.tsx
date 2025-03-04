@@ -4,14 +4,28 @@ import { usePathname, useSearchParams } from "next/navigation";
 import { generatePagination } from "@/lib/utils";
 import Link from "next/link";
 
-export default function Pagination({ totalPages }: { totalPages: number }) {
+export default function Pagination({
+  customPathname,
+  totalPages,
+}: {
+  customPathname?: string;
+  totalPages: number;
+}) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const currentPage = Number(searchParams.get("page") || "1");
 
   const createPageURL = (pageNumber: number | string) => {
+    if (Number(pageNumber) === 1) {
+      return "/";
+    }
     const params = new URLSearchParams(searchParams);
     params.set("page", pageNumber.toString());
+
+    if (customPathname) {
+      return `${customPathname}?${params.toString()}`;
+    }
+
     return `${pathname}?${params.toString()}`;
   };
 
@@ -26,12 +40,12 @@ export default function Pagination({ totalPages }: { totalPages: number }) {
       />
 
       {allPages.map((page, index) => {
-        let position: "ellipsis" | "single" = "single";
+        let position: "ellipsis" | "single" | undefined;
 
         if (page === "...") {
           position = "ellipsis";
         }
-        
+
         return (
           <PaginationNumber
             key={`${page}-${index}`}
@@ -81,7 +95,7 @@ function PaginationNumber({
   href: string;
   pageNumber: number | string;
   isActive: boolean;
-  position: "ellipsis" | "single";
+  position?: "ellipsis" | "single";
 }) {
   if (isActive || position === "single") {
     return <button className="join-item btn btn-active">{pageNumber}</button>;

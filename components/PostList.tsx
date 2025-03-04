@@ -14,8 +14,12 @@ export default async function PostList({
     ? getPostsByTag(query || "", currentPage)
     : getFilteredPosts(query || "", currentPage));
 
+  const errorMessage = query
+    ? `No posts found with ${query}`
+    : "No posts found";
+
   if (posts.length === 0) {
-    return <ErrorCard error={` No posts found with ${query}`} />;
+    return <ErrorCard error={errorMessage} />;
   }
 
   return (

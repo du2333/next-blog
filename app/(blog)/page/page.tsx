@@ -4,18 +4,24 @@ import PostListSkeleton from "@/components/skeletons/PostListSkeleton";
 import { getTotalPages } from "@/lib/actions";
 import { Suspense } from "react";
 
-export const revalidate = 3600; // 每小时重新生成
+export default async function Home(props: {
+  searchParams?: Promise<{
+    page?: string;
+  }>;
+}) {
+  const searchParams = await props.searchParams;
 
-export default async function Home() {
+  const currentPage = Number(searchParams?.page) || 1;
+
   const totalPages = await getTotalPages("");
 
   return (
     <section className="w-full min-h-screen">
       <Suspense fallback={<PostListSkeleton />}>
-        <PostList currentPage={1} />
+        <PostList currentPage={currentPage} />
       </Suspense>
       <div className="mt-5 flex w-full justify-center">
-        <Pagination totalPages={totalPages} customPathname="/page" />
+        <Pagination totalPages={totalPages} />
       </div>
     </section>
   );
