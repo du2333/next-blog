@@ -32,7 +32,7 @@ export default async function PostPage({
     <article className="prose text-base-content min-h-screen">
       <div className="flex flex-col items-center">
         <h1>{post.title}</h1>
-        <p className="text-neutral-content">
+        <p className="text-base-content/50">
           Last updated: {post.updatedAt.toLocaleDateString()}
         </p>
         <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
