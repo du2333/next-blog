@@ -1,3 +1,10 @@
+import { type ClassValue, clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}
+
 export function generatePagination(currentPage: number, totalPages: number) {
   // if total pages is less than 7, return all pages
   if (totalPages <= 7) {
