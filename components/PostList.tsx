@@ -1,6 +1,8 @@
 import PostItem from "./PostItem";
 import { getFilteredPosts, getPostsByTag } from "@/lib/actions";
 import ErrorCard from "./ErrorCard";
+import { PostStatus } from "@prisma/client";
+
 export default async function PostList({
   query,
   currentPage,
@@ -17,11 +19,11 @@ export default async function PostList({
   }
 
   const posts = await (isTagPage
-    ? getPostsByTag(query || "", currentPage)
-    : getFilteredPosts(query || "", currentPage));
+    ? getPostsByTag(query || "", currentPage, PostStatus.PUBLISHED)
+    : getFilteredPosts(query || "", currentPage, PostStatus.PUBLISHED));
 
   const errorMessage = query
-    ? `No posts found with ${query}`
+    ? `No posts found with "${query}"`
     : "No posts found";
 
   if (posts.length === 0) {

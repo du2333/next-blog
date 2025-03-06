@@ -4,6 +4,7 @@ import PostListSkeleton from "@/components/skeletons/PostListSkeleton";
 
 import { getTotalPagesByTag } from "@/lib/actions";
 import { Suspense } from "react";
+import { PostStatus } from "@prisma/client";
 
 type Params = { tag: string };
 type searchParams = { page: string };
@@ -18,7 +19,7 @@ export default async function TagPage(props: {
   const decodedTag = decodeURIComponent(tag);
 
   const currentPage = Number(page) || 1;
-  const totalPages = await getTotalPagesByTag(decodedTag);
+  const totalPages = await getTotalPagesByTag(decodedTag, PostStatus.PUBLISHED);
 
   return (
     <section className="w-full min-h-screen">

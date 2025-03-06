@@ -12,13 +12,13 @@ const ITEMS_PER_PAGE = 10;
 export async function getFilteredPosts(
   query: string,
   currentPage: number,
-  status: PostStatus = PostStatus.PUBLISHED
+  status?: PostStatus
 ) {
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
 
   const posts = await prisma.post.findMany({
     where: {
-      status: status,
+      ...(status && { status }),
       OR: [
         {
           title: {
@@ -55,13 +55,17 @@ export async function getFilteredPosts(
   return posts;
 }
 
-export async function getPostsByTag(tag: string, currentPage: number, status: PostStatus = PostStatus.PUBLISHED) {
+export async function getPostsByTag(
+  tag: string,
+  currentPage: number,
+  status?: PostStatus
+) {
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
 
   const posts = await prisma.post.findMany({
     where: {
       tags: { some: { tag: { name: tag } } },
-      status: status,
+      ...(status && { status }),
     },
     orderBy: {
       createdAt: "desc",
@@ -72,17 +76,17 @@ export async function getPostsByTag(tag: string, currentPage: number, status: Po
   return posts;
 }
 
-export async function getPostBySlug(slug: string, status: PostStatus = PostStatus.PUBLISHED) {
+export async function getPostBySlug(slug: string, status?: PostStatus) {
   const post = await prisma.post.findUnique({
-    where: { slug, status },
+    where: { slug, ...(status && { status }) },
   });
   return post;
 }
 
-export async function getTotalPages(query: string, status: PostStatus = PostStatus.PUBLISHED) {
+export async function getTotalPages(query: string, status?: PostStatus) {
   const total = await prisma.post.count({
     where: {
-      status,
+      ...(status && { status }),
       OR: [
         {
           title: {
@@ -111,23 +115,23 @@ export async function getTotalPages(query: string, status: PostStatus = PostStat
   return Math.ceil(total / ITEMS_PER_PAGE);
 }
 
-export async function getTotalPagesByTag(tag: string, status: PostStatus = PostStatus.PUBLISHED) {
+export async function getTotalPagesByTag(tag: string, status?: PostStatus) {
   const total = await prisma.post.count({
     where: {
       tags: { some: { tag: { name: tag } } },
-      status,
+      ...(status && { status }),
     },
   });
   return Math.ceil(total / ITEMS_PER_PAGE);
 }
 
-export async function getAllTags(status: PostStatus = PostStatus.PUBLISHED) {
+export async function getAllTags(status?: PostStatus) {
   const tags = await prisma.tag.findMany({
     where: {
       posts: {
         some: {
           post: {
-            status,
+            ...(status && { status }),
           },
         },
       },
@@ -139,10 +143,10 @@ export async function getAllTags(status: PostStatus = PostStatus.PUBLISHED) {
   return tags;
 }
 
-export async function getAllSlugs(status: PostStatus = PostStatus.PUBLISHED) {
+export async function getAllSlugs(status?: PostStatus) {
   const slugs = await prisma.post.findMany({
     where: {
-      status,
+      ...(status && { status }),
     },
     select: {
       slug: true,
@@ -151,10 +155,10 @@ export async function getAllSlugs(status: PostStatus = PostStatus.PUBLISHED) {
   return slugs.map((slug) => slug.slug);
 }
 
-export async function getTagsByPostId(postId: string, status: PostStatus = PostStatus.PUBLISHED) {
+export async function getTagsByPostId(postId: string) {
   const tags = await prisma.tag.findMany({
     where: {
-      posts: { some: { postId, post: { status } } },
+      posts: { some: { postId } },
     },
   });
   return tags;

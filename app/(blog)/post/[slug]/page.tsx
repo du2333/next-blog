@@ -1,10 +1,11 @@
 import { markdownRenderer } from "@/lib/MarkdownRenderer";
 import { getAllSlugs, getPostBySlug } from "@/lib/actions";
 import ErrorCard from "@/components/ErrorCard";
+import { PostStatus } from "@prisma/client";
 
 // 在build时生成所有post的静态页面
 export async function generateStaticParams() {
-  const slugs = await getAllSlugs();
+  const slugs = await getAllSlugs(PostStatus.PUBLISHED);
   return slugs.map((slug) => ({
     slug,
   }));
@@ -16,7 +17,7 @@ export default async function PostPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const post = await getPostBySlug(decodeURIComponent(slug));
+  const post = await getPostBySlug(decodeURIComponent(slug), PostStatus.PUBLISHED);
 
   if (!post) {
     return (

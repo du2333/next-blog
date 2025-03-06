@@ -3,6 +3,7 @@ import PostList from "@/components/PostList";
 import PostListSkeleton from "@/components/skeletons/PostListSkeleton";
 import { getTotalPages } from "@/lib/actions";
 import { Suspense } from "react";
+import { PostStatus } from "@prisma/client";
 
 export default async function Home(props: {
   searchParams?: Promise<{
@@ -13,7 +14,7 @@ export default async function Home(props: {
 
   const currentPage = Number(searchParams?.page) || 1;
 
-  const totalPages = await getTotalPages("");
+  const totalPages = await getTotalPages("", PostStatus.PUBLISHED);
 
   return (
     <section className="w-full min-h-screen">

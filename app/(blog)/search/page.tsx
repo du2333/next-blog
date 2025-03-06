@@ -5,6 +5,7 @@ import Pagination from "@/components/Pagination";
 
 import { getTotalPages } from "@/lib/actions";
 import { Suspense } from "react";
+import { PostStatus } from "@prisma/client";
 
 export default async function SearchPage(props: {
   searchParams?: Promise<{
@@ -16,7 +17,7 @@ export default async function SearchPage(props: {
   const q = searchParams?.q || "";
   const page = Number(searchParams?.page) || 1;
 
-  const totalPages = await getTotalPages(q);
+  const totalPages = await getTotalPages(q, PostStatus.PUBLISHED);
 
   return (
     <section className="w-full min-h-screen">
