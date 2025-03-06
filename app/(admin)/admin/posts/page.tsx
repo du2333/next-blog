@@ -1,6 +1,15 @@
-import PostTable from "@/components/admin/PostTable";
+// "use client";
 
-export default function PostsPage() {
+import PostTable from "@/components/admin/PostTable";
+import { getFilteredPosts } from "@/lib/actions";
+import Link from "next/link";
+// import { useState } from "react";
+// import { Post } from "@prisma/client";
+
+export default async function PostsPage() {
+  // const [posts, setPosts] = useState<Post[]>([]);
+  const posts = await getFilteredPosts('', 1);
+
   return (
     <section className="flex flex-col gap-4">
       <div className="flex justify-between items-center">
@@ -10,9 +19,9 @@ export default function PostsPage() {
             Manage your posts here.
           </p>
         </div>
-        <button className="btn btn-primary">New Post</button>
+        <Link href="/admin/posts/new" className="btn btn-primary">New Post</Link>
       </div>
-      <PostTable />
+      <PostTable posts={posts} />
     </section>
   );
 }
