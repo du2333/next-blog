@@ -5,11 +5,17 @@ export default async function PostList({
   query,
   currentPage,
   isTagPage = false,
+  isSearchPage = false,
 }: {
   query?: string;
   currentPage: number;
   isTagPage?: boolean;
+  isSearchPage?: boolean;
 }) {
+  if (isSearchPage && !query) {
+    return null;
+  }
+
   const posts = await (isTagPage
     ? getPostsByTag(query || "", currentPage)
     : getFilteredPosts(query || "", currentPage));

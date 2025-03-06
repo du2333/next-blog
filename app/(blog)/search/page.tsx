@@ -22,7 +22,7 @@ export default async function SearchPage(props: {
     <section className="w-full min-h-screen">
       <Search />
       <Suspense fallback={<PostListSkeleton />}>
-        <PostList query={q} currentPage={Number(page)} />
+        <PostList query={q} currentPage={Number(page)} isSearchPage={true} />
       </Suspense>
       <div className="flex justify-center mt-4">
         <Pagination totalPages={totalPages} />
