@@ -2,7 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { LayoutDashboard, FileText } from "lucide-react";
+import { LayoutDashboard, FileText, House } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const links = [
@@ -23,6 +23,12 @@ export default function NavLinks() {
 
   return (
     <>
+      <li>
+        <Link href="/" className="p-4">
+          <House className="w-5 h-5" />
+          <span className="hidden md:inline">Home</span>
+        </Link>
+      </li>
       {links.map((link) => {
         const LinkIcon = link.icon;
         return (

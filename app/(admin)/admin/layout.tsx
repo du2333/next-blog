@@ -1,4 +1,5 @@
 import NavPanel from "@/components/admin/NavPanel";
+import Breadcrumbs from "@/components/admin/Breadcrumbs";
 
 export default function AdminLayout({
   children,
@@ -11,7 +12,12 @@ export default function AdminLayout({
         <NavPanel />
       </aside>
       <main className="flex-1 ml-16 md:ml-56 p-4 min-h-full">
-        <div className="mx-auto max-w-4xl px-6 pt-16 lg:px-8">{children}</div>
+        <div className="mx-auto max-w-4xl px-6 pt-8 lg:px-8">
+          <div className="mb-16">
+            <Breadcrumbs />
+          </div>
+          {children}
+        </div>
       </main>
     </div>
   );
