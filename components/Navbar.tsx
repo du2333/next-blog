@@ -17,7 +17,7 @@ export default function Navbar() {
           </li>
           <li>
             <Link href="/search">
-              <Search className="w-8 h-8" />
+              <Search />
             </Link>
           </li>
         </ul>
