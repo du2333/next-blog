@@ -1,5 +1,5 @@
 import "./globals.css";
-import { ThemeProvider } from "@/components/ThemeProvider";
+import { ThemeProvider } from "@/components/theme-provider";
 
 export default function RootLayout({
   children,
@@ -8,8 +8,9 @@ export default function RootLayout({
 }) {
   return (
     <html suppressHydrationWarning>
-      <body className="min-h-screen bg-base-100">
+      <body className="min-h-screen bg-background">
         <ThemeProvider
+          attribute="class"
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
