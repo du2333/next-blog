@@ -8,14 +8,17 @@ import { comparePassword, hashPassword } from "./passwordHasher";
 import { cookies } from "next/headers";
 
 export async function signup(state: FormState, formData: FormData) {
-  const validatedFields = SignupFormSchema.safeParse({
-    email: formData.get("email"),
-    password: formData.get("password"),
-  });
+  const rawData = {
+    email: formData.get("email") as string,
+    password: formData.get("password") as string,
+  };
+
+  const validatedFields = SignupFormSchema.safeParse(rawData);
 
   if (!validatedFields.success) {
     return {
       errors: validatedFields.error.flatten().fieldErrors,
+      input: rawData,
     };
   }
 
@@ -30,6 +33,7 @@ export async function signup(state: FormState, formData: FormData) {
   if (existingUser) {
     return {
       errors: { email: ["Email already in use"] },
+      input: rawData,
     };
   }
   try {
@@ -45,12 +49,14 @@ export async function signup(state: FormState, formData: FormData) {
     if (!user) {
       return {
         errors: { email: ["Failed to create user"] },
+        input: rawData,
       };
     }
     await createUserSession(user, await cookies());
   } catch {
     return {
       errors: { email: ["Failed to create user"] },
+      input: rawData,
     };
   }
 
@@ -58,13 +64,17 @@ export async function signup(state: FormState, formData: FormData) {
 }
 
 export async function login(state: FormState, formData: FormData) {
-  const validatedFields = LoginFormSchema.safeParse({
-    email: formData.get("email"),
-    password: formData.get("password"),
-  });
+  const rawData = {
+    email: formData.get("email") as string,
+    password: formData.get("password") as string,
+  };
+
+  const validatedFields = LoginFormSchema.safeParse(rawData);
+
   if (!validatedFields.success) {
     return {
       errors: validatedFields.error.flatten().fieldErrors,
+      input: rawData,
     };
   }
   const { email, password } = validatedFields.data;
@@ -77,6 +87,7 @@ export async function login(state: FormState, formData: FormData) {
   if (!user) {
     return {
       errors: { email: ["Invalid email or password"] },
+      input: rawData,
     };
   }
 
@@ -84,6 +95,7 @@ export async function login(state: FormState, formData: FormData) {
   if (!isPasswordValid) {
     return {
       errors: { email: ["Invalid email or password"] },
+      input: rawData,
     };
   }
 

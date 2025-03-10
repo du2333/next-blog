@@ -15,11 +15,13 @@ export default async function Home() {
       <Suspense fallback={<PostListSkeleton />}>
         <PostList currentPage={1} />
       </Suspense>
-      <div className="mt-5 flex w-full justify-center">
-        <Suspense>
-          <Pagination totalPages={totalPages} customPathname="/page" />
-        </Suspense>
-      </div>
+      {totalPages > 1 && (
+        <div className="mt-5 flex w-full justify-center">
+          <Suspense>
+            <Pagination totalPages={totalPages} customPathname="/page" />
+          </Suspense>
+        </div>
+      )}
     </section>
   );
 }
