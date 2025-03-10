@@ -1,6 +1,6 @@
 // "use client";
 
-import PostTable from "@/components/admin/PostTable";
+import PostTable from "@/components/admin/post-table";
 import { getFilteredPosts } from "@/lib/actions";
 import Link from "next/link";
 // import { useState } from "react";

@@ -3,6 +3,8 @@
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { useDebouncedCallback } from "use-debounce";
 import { Search as SearchIcon } from "lucide-react";
+import { Input } from "@/components/ui/input";
+
 
 export default function Search() {
   const router = useRouter();
@@ -22,9 +24,9 @@ export default function Search() {
   }, 300);
 
   return (
-    <label className="input w-full mb-8">
+    <label className="w-full mb-8">
       <SearchIcon className="w-4 h-4" />
-      <input
+      <Input
         type="search"
         required
         placeholder="Search..."

@@ -1,6 +1,6 @@
-import LogOutButton from "@/components/auth/LogOutButton";
+import LogOutButton from "@/components/auth/logout-button";
 import { getCurrentUser } from "@/lib/currentUser";
-import ToggleButton from "@/components/auth/ToggleButton";
+import ToggleButton from "@/components/auth/toggle-button";
 
 export default async function AdminPage() {
   const user = await getCurrentUser({ redirectIfNotFound: false });

@@ -1,5 +1,5 @@
-import NavPanel from "@/components/admin/NavPanel";
-import Breadcrumbs from "@/components/admin/Breadcrumbs";
+import NavPanel from "@/components/admin/nav-panel";
+import Breadcrumbs from "@/components/admin/breadcrumbs";
 
 export default function AdminLayout({
   children,

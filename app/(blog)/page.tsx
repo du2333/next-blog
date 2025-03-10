@@ -1,6 +1,6 @@
-import Pagination from "@/components/Pagination";
-import PostList from "@/components/PostList";
-import PostListSkeleton from "@/components/skeletons/PostListSkeleton";
+import Pagination from "@/components/pagination";
+import PostList from "@/components/post-list";
+import PostListSkeleton from "@/components/skeletons/post-list-skeleton";
 import { getTotalPages } from "@/lib/actions";
 import { Suspense } from "react";
 import { PostStatus } from "@prisma/client";

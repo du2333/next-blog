@@ -1,6 +1,6 @@
-import Navbar from "@/components/Navbar";
-import TagCloud from "@/components/TagCloud";
-import Footer from "@/components/Footer";
+import Navbar from "@/components/navbar";
+import TagCloud from "@/components/tag-cloud";
+import Footer from "@/components/footer";
 
 export default function BlogLayout({
   children,

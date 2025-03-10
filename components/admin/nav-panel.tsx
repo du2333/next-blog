@@ -1,5 +1,5 @@
 import { LogOut } from "lucide-react";
-import NavLinks from "./NavLinks";
+import NavLinks from "./nav-links";
 
 export default function NavPanel() {
   return (

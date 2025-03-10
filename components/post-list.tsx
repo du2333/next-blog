@@ -1,4 +1,4 @@
-import PostItem from "./PostItem";
+import PostItem from "./post-item";
 import { getFilteredPosts, getPostsByTag } from "@/lib/actions";
 import { PostStatus } from "@prisma/client";
 

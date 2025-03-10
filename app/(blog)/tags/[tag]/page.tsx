@@ -1,6 +1,6 @@
-import Pagination from "@/components/Pagination";
-import PostList from "@/components/PostList";
-import PostListSkeleton from "@/components/skeletons/PostListSkeleton";
+import Pagination from "@/components/pagination";
+import PostList from "@/components/post-list";
+import PostListSkeleton from "@/components/skeletons/post-list-skeleton";
 
 import { getTotalPagesByTag } from "@/lib/actions";
 import { Suspense } from "react";
@@ -14,7 +14,7 @@ export default async function TagPage(props: {
   searchParams?: Promise<searchParams>;
 }) {
   const { tag } = await props.params;
-  const { page } = await props.searchParams || { page: "1" };
+  const { page } = (await props.searchParams) || { page: "1" };
 
   const decodedTag = decodeURIComponent(tag);
 
@@ -27,7 +27,11 @@ export default async function TagPage(props: {
         标签: {decodedTag}
       </h1>
       <Suspense fallback={<PostListSkeleton />}>
-        <PostList query={decodedTag} currentPage={currentPage} isTagPage={true} />
+        <PostList
+          query={decodedTag}
+          currentPage={currentPage}
+          isTagPage={true}
+        />
       </Suspense>
       <div className="flex justify-center mt-4">
         <Pagination totalPages={totalPages} />

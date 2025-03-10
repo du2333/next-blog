@@ -1,7 +1,7 @@
 import Search from "@/components/Search";
-import PostListSkeleton from "@/components/skeletons/PostListSkeleton";
-import PostList from "@/components/PostList";
-import Pagination from "@/components/Pagination";
+import PostListSkeleton from "@/components/skeletons/post-list-skeleton";
+import PostList from "@/components/post-list";
+import Pagination from "@/components/pagination";
 
 import { getTotalPages } from "@/lib/actions";
 import { Suspense } from "react";

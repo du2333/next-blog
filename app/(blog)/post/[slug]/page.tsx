@@ -1,6 +1,6 @@
 import { markdownRenderer } from "@/lib/MarkdownRenderer";
 import { getAllSlugs, getPostBySlug } from "@/lib/actions";
-import ErrorCard from "@/components/ErrorCard";
+import ErrorCard from "@/components/error-card";
 import { PostStatus } from "@prisma/client";
 
 // 在build时生成所有post的静态页面
