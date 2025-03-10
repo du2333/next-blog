@@ -30,13 +30,23 @@ export default function Navbar() {
           </Link>
         </nav>
         <div className="flex items-center gap-4">
-          <Link href="/search">
-            <SearchIcon className="size-5" />
-          </Link>
+          <Button
+            variant="ghost"
+            size="icon"
+            asChild
+          >
+            <Link href="/search">
+              <SearchIcon className="size-5" />
+            </Link>
+          </Button>
           <ThemeController />
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="icon" className="md:hidden cursor-pointer">
+              <Button
+                variant="outline"
+                size="icon"
+                className="md:hidden cursor-pointer"
+              >
                 <MenuIcon className="size-5" />
               </Button>
             </DropdownMenuTrigger>
