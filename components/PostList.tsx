@@ -1,6 +1,5 @@
 import PostItem from "./PostItem";
 import { getFilteredPosts, getPostsByTag } from "@/lib/actions";
-import ErrorCard from "./ErrorCard";
 import { PostStatus } from "@prisma/client";
 
 export default async function PostList({
@@ -22,16 +21,8 @@ export default async function PostList({
     ? getPostsByTag(query || "", currentPage, PostStatus.PUBLISHED)
     : getFilteredPosts(query || "", currentPage, PostStatus.PUBLISHED));
 
-  const errorMessage = query
-    ? `No posts found with "${query}"`
-    : "No posts found";
-
-  if (posts.length === 0) {
-    return <ErrorCard error={errorMessage} />;
-  }
-
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-wrap gap-4">
       {posts.map((post) => (
         <PostItem key={post.id} post={post} />
       ))}
