@@ -2,7 +2,16 @@
 
 import { usePathname, useSearchParams } from "next/navigation";
 import { generatePagination } from "@/lib/utils";
-import Link from "next/link";
+
+import {
+  Pagination as PaginationComponent,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 
 export default function Pagination({
   customPathname,
@@ -32,57 +41,41 @@ export default function Pagination({
   const allPages = generatePagination(currentPage, totalPages);
 
   return (
-    <div className="join">
-      <PaginationArrow
-        href={createPageURL(currentPage - 1)}
-        direction="left"
-        isDisabled={currentPage <= 1}
-      />
-
-      {allPages.map((page, index) => {
-        let position: "ellipsis" | "single" | undefined;
-
-        if (page === "...") {
-          position = "ellipsis";
-        }
-
-        return (
-          <PaginationNumber
-            key={`${page}-${index}`}
-            href={createPageURL(page)}
-            pageNumber={page}
-            isActive={page === currentPage}
-            position={position}
+    <PaginationComponent>
+      <PaginationContent>
+        <PaginationItem>
+          <PaginationPrevious
+            href={createPageURL(currentPage - 1)}
+            className={currentPage <= 1 ? "invisible" : ""}
           />
-        );
-      })}
+        </PaginationItem>
 
-      <PaginationArrow
-        href={createPageURL(currentPage + 1)}
-        direction="right"
-        isDisabled={currentPage >= totalPages}
-      />
-    </div>
-  );
-}
+        {allPages.map((page, index) => {
+          let position: "ellipsis" | "single" | undefined;
 
-function PaginationArrow({
-  href,
-  direction,
-  isDisabled,
-}: {
-  href: string;
-  direction: "left" | "right";
-  isDisabled?: boolean;
-}) {
-  const directionText = direction === "left" ? "<<" : ">>";
+          if (page === "...") {
+            position = "ellipsis";
+          }
 
-  return isDisabled ? (
-    <button className="join-item btn btn-disabled">{directionText}</button>
-  ) : (
-    <Link href={href} className="join-item btn">
-      <button>{directionText}</button>
-    </Link>
+          return (
+            <PaginationNumber
+              key={`${page}-${index}`}
+              href={createPageURL(page)}
+              pageNumber={page}
+              isActive={page === currentPage}
+              position={position}
+            />
+          );
+        })}
+
+        <PaginationItem>
+          <PaginationNext
+            href={createPageURL(currentPage + 1)}
+            className={currentPage >= totalPages ? "invisible" : ""}
+          />
+        </PaginationItem>
+      </PaginationContent>
+    </PaginationComponent>
   );
 }
 
@@ -98,16 +91,26 @@ function PaginationNumber({
   position?: "ellipsis" | "single";
 }) {
   if (isActive || position === "single") {
-    return <button className="join-item btn btn-active">{pageNumber}</button>;
+    return (
+      <PaginationItem>
+        <PaginationLink href={href} isActive>
+          {pageNumber}
+        </PaginationLink>
+      </PaginationItem>
+    );
   }
 
   if (position === "ellipsis") {
-    return <button className="join-item btn btn-disabled">{pageNumber}</button>;
+    return (
+      <PaginationItem>
+        <PaginationEllipsis />
+      </PaginationItem>
+    );
   }
 
   return (
-    <Link href={href} className="join-item btn">
-      <button>{pageNumber}</button>
-    </Link>
+    <PaginationItem>
+      <PaginationLink href={href}>{pageNumber}</PaginationLink>
+    </PaginationItem>
   );
 }
