@@ -22,7 +22,7 @@ export default async function PostList({
     : getFilteredPosts(query || "", currentPage, PostStatus.PUBLISHED));
 
   return (
-    <div className="flex flex-wrap gap-4">
+    <div className="flex flex-wrap gap-4 p-4">
       {posts.map((post) => (
         <PostItem key={post.id} post={post} />
       ))}
