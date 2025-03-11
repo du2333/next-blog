@@ -1,16 +1,18 @@
 "use client";
 
 import { logout } from "@/lib/auth";
+import { Button } from "@/components/ui/button";
 
 export default function LogOutButton() {
   return (
-    <button
+    <Button
       onClick={async () => {
         await logout();
       }}
-      className="btn btn-error"
+      variant="destructive"
+      className="cursor-pointer"
     >
       Logout
-    </button>
+    </Button>
   );
 }

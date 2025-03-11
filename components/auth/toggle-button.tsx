@@ -1,11 +1,12 @@
 "use client";
 
 import { toggleRole } from "@/lib/actions";
+import { Button } from "@/components/ui/button";
 
 export default function ToggleButton() {
   return (
-    <button className="btn btn-primary" onClick={toggleRole}>
+    <Button onClick={toggleRole} className="cursor-pointer">
       Toggle
-    </button>
+    </Button>
   );
 }
