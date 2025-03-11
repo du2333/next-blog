@@ -9,7 +9,7 @@ export default async function PostItem({ post }: { post: Post }) {
   const tags = await getTagsByPostId(post.id);
 
   return (
-    <Link href={`/post/${post.slug}`}>
+    <Link href={`/post/${post.slug}`} className="w-full">
       <Card>
         <CardHeader>
           <Image

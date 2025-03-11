@@ -5,13 +5,11 @@ import { getTotalPages } from "@/lib/actions";
 import { Suspense } from "react";
 import { PostStatus } from "@prisma/client";
 
-export const revalidate = 3600; // 每小时重新生成
-
 export default async function Home() {
   const totalPages = await getTotalPages("", PostStatus.PUBLISHED);
 
   return (
-    <section className="w-full min-h-screen">
+    <section className="w-full min-h-screen p-4">
       <Suspense fallback={<PostListSkeleton />}>
         <PostList currentPage={1} />
       </Suspense>
