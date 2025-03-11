@@ -9,7 +9,7 @@ export default async function PostItem({ post }: { post: Post }) {
   const tags = await getTagsByPostId(post.id);
 
   return (
-    <Link href={`/post/${post.slug}`} className="w-full">
+    <Link href={`/post/${post.slug}`}>
       <Card>
         <CardHeader>
           <Image
@@ -19,7 +19,9 @@ export default async function PostItem({ post }: { post: Post }) {
             height={400}
             className="w-full h-40 object-cover"
           />
-          <CardTitle>{post.title}</CardTitle>
+          <CardTitle className="overflow-hidden text-ellipsis whitespace-nowrap">
+            {post.title}
+          </CardTitle>
         </CardHeader>
         <CardFooter className="flex justify-between text-foreground/50">
           <p>{tags.map((tag) => `#${tag.name}`).join(" ")}</p>
