@@ -1,45 +1,66 @@
 import { Post } from "@prisma/client";
 import { getTagsByPostId } from "@/lib/actions";
 
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+
 interface PostTableProps {
   posts: Post[];
 }
 
+const columns = [
+  {
+    header: "Post Title",
+  },
+  {
+    header: "Tags",
+  },
+  {
+    header: "Status",
+  },
+  {
+    header: "Created At",
+  },
+  {
+    header: "Last Updated",
+  },
+];
+
 export default function PostTable({ posts }: PostTableProps) {
   return (
-    <div className="overflow-x-auto">
-      <table className="table">
-        {/* head */}
-        <thead>
-          <tr>
-            <th>Post Title</th>
-            <th>Tags</th>
-            <th>Status</th>
-            <th>Created At</th>
-            <th>Last Updated</th>
-          </tr>
-        </thead>
-        <tbody>
-          {posts.map((post) => (
-            <TableRow key={post.id} post={post} />
+    <Table>
+      <TableHeader>
+        <TableRow>
+          {columns.map((column) => (
+            <TableHead key={column.header}>{column.header}</TableHead>
           ))}
-        </tbody>
-      </table>
-    </div>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {posts.map((post) => (
+          <PostTableRow key={post.id} post={post} />
+        ))}
+      </TableBody>
+    </Table>
   );
 }
 
-
-async function TableRow({ post }: { post: Post }) {
+async function PostTableRow({ post }: { post: Post }) {
   const tags = await getTagsByPostId(post.id);
-  
+
   return (
-    <tr>
-      <td>{post.title}</td>
-      <td>{tags.map((tag) => tag.name).join(", ")}</td>
-      <td>{post.status}</td>
-      <td>{post.createdAt.toLocaleDateString()}</td>
-      <td>{post.updatedAt.toLocaleDateString()}</td>
-    </tr>
+    <TableRow>
+      <TableCell>{post.title}</TableCell>
+      <TableCell>{tags.map((tag) => tag.name).join(", ")}</TableCell>
+      <TableCell>{post.status}</TableCell>
+      <TableCell>{post.createdAt.toLocaleDateString()}</TableCell>
+      <TableCell>{post.updatedAt.toLocaleDateString()}</TableCell>
+    </TableRow>
   );
 }

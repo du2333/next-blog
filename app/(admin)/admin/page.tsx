@@ -9,7 +9,7 @@ export default async function AdminPage() {
     <section className="w-full h-screen">
       <div className="flex justify-between items-center">
         {user && (
-          <h2 className="text-base-content text-lg">
+          <h2 className="text-lg">
             Welcome, {user.id} and {user.role}
           </h2>
         )}
