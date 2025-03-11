@@ -4,6 +4,7 @@ import PostListSkeleton from "@/components/skeletons/post-list-skeleton";
 import { getTotalPages } from "@/lib/actions";
 import { Suspense } from "react";
 import { PostStatus } from "@prisma/client";
+import { notFound } from "next/navigation";
 
 export default async function Home(props: {
   searchParams?: Promise<{
@@ -15,6 +16,10 @@ export default async function Home(props: {
   const currentPage = Number(searchParams?.page) || 1;
 
   const totalPages = await getTotalPages("", PostStatus.PUBLISHED);
+
+  if ( currentPage > totalPages) {
+    return notFound();
+  }
 
   return (
     <section className="w-full min-h-screen">
