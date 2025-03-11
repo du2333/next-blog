@@ -1,5 +1,5 @@
-import NavPanel from "@/components/admin/nav-panel";
-import Breadcrumbs from "@/components/admin/breadcrumbs";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { AppSidebar } from "@/components/admin/app-sidebar";
 
 export default function AdminLayout({
   children,
@@ -7,18 +7,12 @@ export default function AdminLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="min-h-screen flex">
-      <aside className="fixed left-0 h-screen w-16 md:w-56">
-        <NavPanel />
-      </aside>
-      <main className="flex-1 ml-16 md:ml-56 p-4 min-h-full">
-        <div className="mx-auto max-w-4xl px-6 pt-8 lg:px-8">
-          <div className="mb-16">
-            <Breadcrumbs />
-          </div>
-          {children}
-        </div>
+    <SidebarProvider>
+      <AppSidebar />
+      <main className="w-full">
+        <SidebarTrigger className="fixed top-0 z-50" />
+        <div className="mx-auto max-w-7xl p-12 mt-8">{children}</div>
       </main>
-    </div>
+    </SidebarProvider>
   );
 }
